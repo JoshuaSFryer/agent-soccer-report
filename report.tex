@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{listings}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -41,7 +42,7 @@ email address or ORCID}
 \maketitle
 
 \begin{abstract}
-A team of Robocup soccer-playing agents was implemented using the Jason framework [footnote], creating a team of five Jason agents which communicate with each other and execute plans; these agents perceived and acted upon the virtual soccer field by interfacing with Krislet entities. The team demonstrated cooperative behaviour in scoring on the opposing net and preventing scoring on the friendly net.
+A team of Robocup soccer-playing agents was implemented using the Jason framework\footnote{http://jason.sourceforge.net/wp/}, creating a team of five Jason agents which communicate with each other and execute plans; these agents perceived and acted upon the virtual soccer field by interfacing with Krislet entities. The team demonstrated cooperative behaviour in scoring on the opposing net and preventing scoring on the friendly net.
 \end{abstract}
 
 \section{Introduction}
@@ -62,19 +63,18 @@ Our agents use a Belief-Desire-Intention (BDI) design; they hold beliefs (things
 \subsection{Goals and Planning}
 
 We designed two types of player agent, to fulfill different roles: offensive players ("strikers"), and defensive players ("defenders"). Their decision processes are as follows:
-\subsubsection{Strikers}
-The first striker to see the ball will take on the role of primary attacker, and will attempt to kick the ball into the net. It notifies the other strikers of this, and they take on an assisting role and run towards the opposing net. When the attacking striker kicks, it notifies all strikers and the distance calculation and role assignment happens again.
-\subsubsection{Defender}
-Each defender looks for its own net and runs towards it. Once there, they then defend the net by searching for the ball and, if the ball is within a certain distance of them, approaching the ball and kicking it away towards the opposing net.
 
-\subsection{Communication}
-\begin{figure}[h]
+\subsubsection{Strikers}
+The first striker to see the ball will take on the role of primary attacker, and will attempt to kick the ball into the net. It notifies the other strikers of this, and they take on an assisting role and run towards the opposing net. When the attacking striker kicks, it notifies all strikers and the distance calculation and role assignment happens again. Figure \ref{sequence-diagram} is a sequence diagram illustrating the interplay and communication of the striker agents 
+\begin{figure}[]
 	\centering
 	\includegraphics[scale=0.5]{fig/sequence-diagram.pdf}
 	\caption{Communication between striker-type agents}
 	\label{sequence-diagram}
 \end{figure}
 
+\subsubsection{Defender}
+Each defender looks for its own net and runs towards it. Once there, they then defend the net by searching for the ball and, if the ball is within a certain distance of them, approaching the ball and kicking it away towards the opposing net.
 
 
 \section{Implementation}
@@ -101,12 +101,30 @@ The abstract player behaviours were first formalized in flowcharts (Figure \ref{
 The environment is a Java class that handles the interface between the Robocup soccer environment server and the Jason framework. At program startup it initializes all Krislet objects and has callbacks to map Krislet memory objects to Jason percepts. 
 
 \subsection{Krislet}
-The Krislet program was provided as a demo agent to run in the Robocup simulation. This program was modified to be a stand alone agent for interfacing with the simulation, acting as a puppet for the Jason agent. Each Krislet object represents one Jason agent, and when created opens a socket to the soccer environment server and registers the player. Actions chosen by the Jason agent are executed by the Krislet object, which also feeds back percepts to the Jason agent.
-
+The Krislet program was provided as a demo agent to run in the Robocup simulation. This program was modified to be a stand alone agent for interfacing with the simulation, acting as a puppet for the Jason agent. Each Krislet object represents one Jason agent, and when created opens a socket to the soccer environment server and registers the player. Actions chosen by the Jason agent are executed by the Krislet object following the Command design pattern, which also feeds back percepts to the Jason agent.
 
 
 \section{Results}
-
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent auctor, urna eu suscipit convallis, nisi urna tempus risus, eget pulvinar elit nisl ac nulla. Integer arcu augue, vehicula feugiat lobortis elementum, interdum ut augue. Nunc egestas nulla eget lorem pulvinar commodo. Nunc egestas turpis efficitur aliquet euismod. In eleifend sodales commodo. Maecenas non posuere lorem. Nullam lacus ligula, sollicitudin ac est a, congue tempor tellus. Suspendisse cursus felis fringilla, dignissim sem feugiat, pulvinar risus. Fusce nec tempus lacus. Donec ac massa at nunc pellentesque aliquet. Nam sollicitudin posuere enim, non consequat arcu cursus at. 
 \section{Conclusion}
+Aenean eget hendrerit nunc, vitae dapibus risus. Sed ut ultrices quam, at facilisis lectus. Fusce dapibus condimentum consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus facilisis vulputate odio imperdiet condimentum. Cras accumsan nunc ac sagittis sodales. 
+
+
+\section{Appendix}
+\centering
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{fig/defender-code.png}
+	\caption{AgentSpeak code for defender-type agents}
+	\label{code-defender}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{fig/striker-code.png}
+	\caption{AgentSpeak code for striker-type agents}
+	\label{code-striker}
+\end{figure}
+
 
 \end{document}
